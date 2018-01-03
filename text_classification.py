@@ -1,4 +1,4 @@
-from nltk import sent_tokenize
+import word_segment
 from pprint import pprint
 
 if __name__ == '__main__':
@@ -6,6 +6,9 @@ if __name__ == '__main__':
 		class_1 = f1.read().splitlines()
 	with open('./data/class2.txt') as f2:
 		class_2 = f2.read().splitlines()
+	with open("./VDic.txt") as f:
+		file_dict = f.read().splitlines()
+
 	#with open('./data/class3.txt') as f3:
 	#	class_3 = f3.read().splitlines()
 	#with open('./data/class4.txt') as f4:
@@ -21,7 +24,15 @@ if __name__ == '__main__':
 	p_class_2_prior = class_2_prior / (class_1_prior + class_2_prior)
 	
 	vob_class_1 = ' '.join(class_1)
+	vob_class_1 = word_segment.word_tokenize(vob_class_1, file_dict)
 	vob_class_2 = ' '.join(class_2)
+	vob_class_2 = word_segment.word_tokenize(vob_class_2, file_dict)
+	
+	#sym = r"~`!@#$%^&*()_-+=[]{}|;':\"”“,./<>?–"
+	#vob_class_1 = [s.translate({ord(c): "" for c in sym}) for s in vob_class_1]	
+	#vob_class_2 = [s.translate({ord(c): "" for c in sym}) for s in vob_class_2]	
+
+
 	vob_class_1 = vob_class_1.split()
 	vob_class_2 = vob_class_2.split()
 	#so tu cua moi class
@@ -77,10 +88,10 @@ if __name__ == '__main__':
 		prob_class_1 = prob_class_1 * dic_vob_class_1[k]
 		prob_class_2 = prob_class_2 * dic_vob_class_2[k]
 
-	#print(prob_class_1)
-	#print(prob_class_2)
+	print(prob_class_1)
+	print(prob_class_2)
 	if prob_class_1 > prob_class_2:
-		print('china')
+		print('law')
 	else:
-		print('japan')
+		print('sport')
 	
